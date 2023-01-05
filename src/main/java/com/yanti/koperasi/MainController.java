@@ -1,14 +1,12 @@
 package com.yanti.koperasi;
 
-import com.yanti.koperasi.model.Kursi;
-import com.yanti.koperasi.model.Menu;
-import com.yanti.koperasi.model.User;
-import com.yanti.koperasi.repository.KursiRepository;
-import com.yanti.koperasi.repository.MenuRepository;
-import com.yanti.koperasi.repository.UserRepository;
+import com.yanti.koperasi.model.*;
+import com.yanti.koperasi.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path="/api")
@@ -19,6 +17,15 @@ public class MainController {
     private MenuRepository menuRepository;
     @Autowired
     private KursiRepository kursiRepository;
+    @Autowired
+    private PulsaRepository pulsaRepository;
+    @Autowired
+    private RuanganRepository ruanganRepository;
+
+    @GetMapping(path = "/users")
+    public @ResponseBody Iterable<User> getUsers() {
+        return userRepository.findAll();
+    }
 
     @PostMapping(path="/register")
     public @ResponseBody String register(User user) {
@@ -31,6 +38,11 @@ public class MainController {
         User user = userRepository.findByUsername(username);
         if(user != null && user.getPassword().equals(password)) return "Login berhasil";
         else return "Username/Password salah";
+    }
+
+    @GetMapping(path = "/menu")
+    public @ResponseBody Iterable<Menu> getAllMenu() {
+        return menuRepository.findAll();
     }
 
     @PutMapping(path = "/menu/pesan")
@@ -61,5 +73,45 @@ public class MainController {
     public @ResponseBody String tambahKursi(Kursi kursi) {
         kursiRepository.save(kursi);
         return "Berhasil tambah kursi";
+    }
+
+    @GetMapping(path = "/kursi/tersedia")
+    public @ResponseBody List<Kursi> getKursiTersedia() {
+        return kursiRepository.findByUserIsNull();
+    }
+
+    @PostMapping(path = "/ruangan/tambah")
+    public @ResponseBody String tambahRuangan(Ruangan ruangan) {
+        ruanganRepository.save(ruangan);
+        return "Berhasil tambah ruangan";
+    }
+
+    @GetMapping(path = "/ruangan/tersedia")
+    public @ResponseBody List<Ruangan> getRuanganTersedia() {
+        return ruanganRepository.findByUserIsNull();
+    }
+
+    @PutMapping(path = "/ruangan/booking")
+    public @ResponseBody String bookingRuangan(@RequestParam Integer nomorRuangan, @RequestParam String nomorKTP) {
+        User user = userRepository.findByNomorKTP(nomorKTP);
+        Ruangan ruangan = ruanganRepository.findByNomorRuangan(nomorRuangan);
+        ruangan.setUser(user);
+        ruanganRepository.save(ruangan);
+        return "Berhasil pesan ruangan";
+    }
+
+    @PutMapping(path = "pulsa/beli")
+    public @ResponseBody String beliPulsa(@RequestParam Integer idPulsa, @RequestParam String nomorKTP) {
+        User user = userRepository.findByNomorKTP(nomorKTP);
+        Pulsa pulsa = pulsaRepository.findByIdPulsa(idPulsa);
+        pulsa.getUsers().add(user);
+        pulsaRepository.save(pulsa);
+        return "Berhasil beli pulsa";
+    }
+
+    @PostMapping(path = "pulsa/tambah")
+    public @ResponseBody String tambahPulsa(Pulsa pulsa) {
+        pulsaRepository.save(pulsa);
+        return "Berhasil tambah pulsa";
     }
 }

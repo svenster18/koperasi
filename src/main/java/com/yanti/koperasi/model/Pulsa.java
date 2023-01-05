@@ -7,31 +7,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Menu {
+public class Pulsa {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idMenu;
-    private String namaMenu;
+    private Integer idPulsa;
+    private Integer nominal;
     private Integer harga;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "pembelian",
+            joinColumns = { @JoinColumn(name = "idPulsa")},
+            inverseJoinColumns = { @JoinColumn(name = "nomorKTP") }
+    )
     private Set<User> users = new HashSet<>();
 
-    public Integer getIdMenu() {
-        return idMenu;
+    public Integer getIdPulsa() {
+        return idPulsa;
     }
 
-    public void setIdMenu(Integer idMenu) {
-        this.idMenu = idMenu;
+    public void setIdPulsa(Integer idPulsa) {
+        this.idPulsa = idPulsa;
     }
 
-    public String getNamaMenu() {
-        return namaMenu;
+    public Integer getNominal() {
+        return nominal;
     }
 
-    public void setNamaMenu(String namaMenu) {
-        this.namaMenu = namaMenu;
+    public void setNominal(Integer nominal) {
+        this.nominal = nominal;
     }
 
     public Integer getHarga() {

@@ -1,5 +1,6 @@
 package com.yanti.koperasi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -14,6 +15,7 @@ public class User {
     private String username;
     private String password;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "pesanan",
@@ -22,8 +24,17 @@ public class User {
     )
     private Set<Menu> menus = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Kursi> kursiSet = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "users")
+    private Set<Pulsa> setPulsa = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "user")
+    private Set<Ruangan> ruanganSet = new HashSet<>();
 
     public User() {}
 
