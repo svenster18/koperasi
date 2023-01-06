@@ -23,6 +23,8 @@ public class MainController {
     private RuanganRepository ruanganRepository;
     @Autowired
     private PesananRepository pesananRepository;
+    @Autowired
+    private PengantaranRepository pengantaranRepository;
 
     @GetMapping(path = "/users")
     public @ResponseBody Iterable<User> getUsers() {
@@ -102,7 +104,7 @@ public class MainController {
         return "Berhasil pesan ruangan";
     }
 
-    @PutMapping(path = "pulsa/beli")
+    @PutMapping(path = "/pulsa/beli")
     public @ResponseBody String beliPulsa(@RequestParam Integer idPulsa, @RequestParam String nomorKTP) {
         User user = userRepository.findByNomorKTP(nomorKTP);
         Pulsa pulsa = pulsaRepository.findByIdPulsa(idPulsa);
@@ -111,9 +113,17 @@ public class MainController {
         return "Berhasil beli pulsa";
     }
 
-    @PostMapping(path = "pulsa/tambah")
+    @PostMapping(path = "/pulsa/tambah")
     public @ResponseBody String tambahPulsa(Pulsa pulsa) {
         pulsaRepository.save(pulsa);
         return "Berhasil tambah pulsa";
+    }
+
+    @PostMapping(path = "/pengantaran/pesan")
+    public @ResponseBody String pesanPengantaran(Pengantaran pengantaran, @RequestParam String nomorKTP) {
+        User user = userRepository.findByNomorKTP(nomorKTP);
+        pengantaran.setUser(user);
+        pengantaranRepository.save(pengantaran);
+        return "Berhasil pesan pengantaran paket";
     }
 }

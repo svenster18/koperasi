@@ -21,6 +21,10 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
+    private Set<Pengantaran> pengantaran = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
     private Set<Kursi> kursiSet = new HashSet<>();
 
     @JsonIgnore
@@ -103,5 +107,13 @@ public class User {
 
     public void setRuanganSet(Set<Ruangan> ruanganSet) {
         this.ruanganSet = ruanganSet;
+    }
+
+    public Set<Pengantaran> getPengantaran() {
+        return pengantaran;
+    }
+
+    public void setPengantaran(Set<Pengantaran> pengantaran) {
+        this.pengantaran = pengantaran;
     }
 }
