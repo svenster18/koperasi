@@ -14,6 +14,7 @@ public class User {
     private String nomorHandphone;
     private String username;
     private String password;
+    private String role = "Customer";
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
