@@ -44,9 +44,28 @@ public class MainController {
         else return null;
     }
 
+    // CRUD MENU
     @GetMapping(path = "/menu")
     public @ResponseBody Iterable<Menu> getAllMenu() {
         return menuRepository.findAll();
+    }
+
+    @PostMapping(path = "/menu/tambah")
+    public @ResponseBody String tambahMenu(Menu menu) {
+        menuRepository.save(menu);
+        return "Berhasil tambah menu";
+    }
+
+    @PutMapping(path = "/menu")
+    public @ResponseBody String ubahMenu(Menu menu) {
+        menuRepository.save(menu);
+        return "Berhasil ubah menu";
+    }
+
+    @DeleteMapping(path = "/menu")
+    public @ResponseBody String hapusMenu(@RequestParam Integer idMenu) {
+        menuRepository.deleteById(idMenu);
+        return "Berhasil hapus menu";
     }
 
     @PostMapping(path = "/menu/pesan")
@@ -65,12 +84,6 @@ public class MainController {
         kursi.setUser(user);
         kursiRepository.save(kursi);
         return "Berhasil pesan kursi";
-    }
-
-    @PostMapping(path = "/menu/tambah")
-    public @ResponseBody String tambahMenu(Menu menu) {
-        menuRepository.save(menu);
-        return "Berhasil tambah menu";
     }
 
     @PostMapping(path = "/kursi/tambah")
