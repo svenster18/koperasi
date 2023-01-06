@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -75,6 +77,11 @@ public class MainController {
         Pesanan pesanan = new Pesanan(null, jumlah, user, menu);
         pesananRepository.save(pesanan);
         return "Berhasil pesan menu";
+    }
+
+    @GetMapping(path = "/pesanan/harian")
+    public @ResponseBody Iterable<Pesanan> getPesananHarian() {
+        return pesananRepository.findByTanggalPesanan(Date.valueOf(LocalDate.now()));
     }
 
     @PutMapping(path = "/kursi/pesan")

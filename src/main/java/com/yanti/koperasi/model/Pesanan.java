@@ -2,12 +2,16 @@ package com.yanti.koperasi.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @Entity
 public class Pesanan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idPesanan;
     private Integer jumlah;
+    private Date tanggalPesanan = Date.valueOf(LocalDate.now());
 
     @ManyToOne
     @JoinColumn(name = "nomorKTP")
@@ -57,5 +61,13 @@ public class Pesanan {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public Date getTanggalPesanan() {
+        return tanggalPesanan;
+    }
+
+    public void setTanggalPesanan(Date tanggalPesanan) {
+        this.tanggalPesanan = tanggalPesanan;
     }
 }
