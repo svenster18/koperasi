@@ -34,10 +34,10 @@ public class MainController {
     }
 
     @PostMapping(path="/login")
-    public @ResponseBody String login(@RequestParam String username, @RequestParam String password) {
+    public @ResponseBody User login(@RequestParam String username, @RequestParam String password) {
         User user = userRepository.findByUsername(username);
-        if(user != null && user.getPassword().equals(password)) return "Login berhasil";
-        else return "Username/Password salah";
+        if(user != null && user.getPassword().equals(password)) return user;
+        else return null;
     }
 
     @GetMapping(path = "/menu")
