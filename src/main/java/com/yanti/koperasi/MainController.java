@@ -21,6 +21,8 @@ public class MainController {
     private PulsaRepository pulsaRepository;
     @Autowired
     private RuanganRepository ruanganRepository;
+    @Autowired
+    private PesananRepository pesananRepository;
 
     @GetMapping(path = "/users")
     public @ResponseBody Iterable<User> getUsers() {
@@ -45,12 +47,12 @@ public class MainController {
         return menuRepository.findAll();
     }
 
-    @PutMapping(path = "/menu/pesan")
-    public @ResponseBody String pesanMenu(@RequestParam Integer idMenu, @RequestParam String nomorKTP) {
+    @PostMapping(path = "/menu/pesan")
+    public @ResponseBody String pesanMenu(@RequestParam Integer idMenu, @RequestParam String nomorKTP, @RequestParam int jumlah) {
         User user = userRepository.findByNomorKTP(nomorKTP);
         Menu menu = menuRepository.findByIdMenu(idMenu);
-        user.getMenus().add(menu);
-        userRepository.save(user);
+        Pesanan pesanan = new Pesanan(null, jumlah, user, menu);
+        pesananRepository.save(pesanan);
         return "Berhasil pesan menu";
     }
 

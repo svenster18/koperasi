@@ -16,13 +16,8 @@ public class User {
     private String password;
 
     @JsonIgnore
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "pesanan",
-            joinColumns = { @JoinColumn(name = "nomorKTP")},
-            inverseJoinColumns = { @JoinColumn(name = "idMenu") }
-    )
-    private Set<Menu> menus = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Pesanan> pesanan = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
@@ -78,19 +73,35 @@ public class User {
         this.password = password;
     }
 
-    public Set<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
-    }
-
     public Set<Kursi> getKursiSet() {
         return kursiSet;
     }
 
     public void setKursiSet(Set<Kursi> kursiSet) {
         this.kursiSet = kursiSet;
+    }
+
+    public Set<Pesanan> getPesanan() {
+        return pesanan;
+    }
+
+    public void setPesanan(Set<Pesanan> pesanan) {
+        this.pesanan = pesanan;
+    }
+
+    public Set<Pulsa> getSetPulsa() {
+        return setPulsa;
+    }
+
+    public void setSetPulsa(Set<Pulsa> setPulsa) {
+        this.setPulsa = setPulsa;
+    }
+
+    public Set<Ruangan> getRuanganSet() {
+        return ruanganSet;
+    }
+
+    public void setRuanganSet(Set<Ruangan> ruanganSet) {
+        this.ruanganSet = ruanganSet;
     }
 }

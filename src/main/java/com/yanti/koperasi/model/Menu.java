@@ -15,8 +15,8 @@ public class Menu {
     private Integer harga;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "menus")
-    private Set<User> users = new HashSet<>();
+    @OneToMany(mappedBy = "menu")
+    private Set<Pesanan> pesanan = new HashSet<>();
 
     public Integer getIdMenu() {
         return idMenu;
@@ -42,11 +42,11 @@ public class Menu {
         this.harga = harga;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<Pesanan> getPesanan() {
+        return pesanan;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setPesanan(Set<Pesanan> pesanan) {
+        this.pesanan = pesanan;
     }
 }
