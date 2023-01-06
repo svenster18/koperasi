@@ -126,4 +126,14 @@ public class MainController {
         pengantaranRepository.save(pengantaran);
         return "Berhasil pesan pengantaran paket";
     }
+
+    @GetMapping(path = "/pesanan")
+    public @ResponseBody Iterable<Pesanan> getPesanan() {
+        return pesananRepository.findAll();
+    }
+
+    @GetMapping(path = "/pesanan/{nomorKTP}")
+    public @ResponseBody Iterable<Pesanan> getPesananByNoKTP (@RequestParam String nomorKTP) {
+        return pesananRepository.findByUserNomorKTP(nomorKTP);
+    }
 }
